@@ -1,0 +1,13 @@
+# API-Version für den Service-Teil – v1 für einfache Objekte wie Service
+apiVersion: v1
+kind: Service                        # Wir erstellen einen Kubernetes-Service
+metadata:
+  name: php-app                      # Der Name des Services (wird intern verwendet)
+spec:
+  type: NodePort                     # Typ: NodePort → erlaubt Zugriff über http://minikubeIP:nodePort
+  selector:
+    app: php-app                     # Verknüpft den Service mit Pods, die dieses Label haben
+  ports:
+  - port: 80                         # Port des Services (Clients sprechen diesen an)
+    targetPort: 80                   # Port im Container, der angesprochen wird
+    nodePort: 30080                  # Port am Host (Minikube-VM), unter dem der Service erreichbar ist

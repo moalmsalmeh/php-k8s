@@ -1,0 +1,20 @@
+# API-Version für Deployments – apps/v1 ist der aktuelle Standard
+apiVersion: apps/v1
+kind: Deployment                     # Wir erstellen ein Deployment, das Pods verwaltet
+metadata:
+  name: php-app                      # Name des Deployments
+spec:
+  replicas: 1                        # Wie viele Pods sollen laufen? (1 ist genug für Test)
+  selector:
+    matchLabels:
+      app: php-app                   # Sucht nach Pods mit diesem Label → wichtig für Steuerung
+  template:
+    metadata:
+      labels:
+        app: php-app                 # Dieses Label wird dem Pod zugewiesen (muss mit selector übereinstimmen)
+    spec:
+      containers:
+      - name: php-app                # Name des Containers
+        image: mein-php-app:latest  # Container-Image, das gestartet wird (lokal gebaut)
+        ports:
+        - containerPort: 80         # Der Port im Container, der offen ist (z.B. Apache/Nginx)

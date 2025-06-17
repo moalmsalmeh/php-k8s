@@ -1,0 +1,66 @@
+# version: "3.8"
+# services:
+#   web:
+#     build: .
+#     ports:
+#       - "8080:80"
+#     volumes:
+#       - ./src:/var/www/html
+#     depends_on:
+#       - db
+#     environment:
+#       - MYSQL_HOST=db
+#       - MYSQL_USER=root
+#       - MYSQL_PASSWORD=secret
+#       - MYSQL_DATABASE=testdb
+#   db:
+#     image: mysql:8.0
+#     restart: always
+#     environment:
+#       - MYSQL_ROOT_PASSWORD=secret
+#       - MYSQL_DATABASE=testdb
+
+#     volumes:
+#       - db_data:/var/lib/mysql
+#       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    
+#     ports:
+#       - "3306:3306"
+# volumes:
+#   db_data:
+
+# apiVersion: apps/v1                     # Version der Kubernetes API, die das Deployment-Objekt unterstützt
+# kind: Deployment                        # Art des Objekts: Deployment steuert die Erstellung und Verwaltung von Pods
+# metadata:                              # Metadaten über das Objekt (Name, Labels, Annotations)
+#   name: mysql                         # Name des Deployments, unter dem es im Cluster referenziert wird
+
+# spec:                                 # Spezifikation: hier definierst du, wie das Deployment aussehen soll
+#   replicas: 1                         # Anzahl der identischen Pods, die laufen sollen (hier 1 MySQL-Instanz)
+#   selector:                          # Wie wählt das Deployment die Pods aus, die es verwalten soll
+#     matchLabels:                     # Labels, nach denen gefiltert wird
+#       app: mysql                    # Alle Pods mit dem Label "app: mysql" gehören zu diesem Deployment
+
+#   template:                         # Vorlage für die Pods, die dieses Deployment erzeugt
+#     metadata:
+#       labels:                      # Labels, die jeder erstellte Pod bekommt
+#         app: mysql                 # Damit passen sie zum Selector oben (wichtig für Service & Deployment)
+#     spec:                         # Spezifikation des Pods: Container, Volumes, etc.
+#       containers:                 # Liste der Container, die im Pod laufen
+#       - name: mysql               # Name des Containers (beliebig, aber sinnvoll)
+#         image: mysql:8.0          # Docker Image, das für den Container verwendet wird (MySQL Version 8.0)
+#         env:                     # Umgebungsvariablen, um MySQL zu konfigurieren
+#         - name: MYSQL_ROOT_PASSWORD
+#           value: rootpass123      # Root Passwort für MySQL (nicht sicher für Produktion, besser Kubernetes Secret)
+#         - name: MYSQL_DATABASE
+#           value: testdb           # Name der Datenbank, die beim Start automatisch erstellt wird
+#         ports:
+#         - containerPort: 3306     # Container-Port, auf dem MySQL lauscht (Standard-Port)
+
+#         volumeMounts:             # Speicher, den der Container nutzt, um Daten zu speichern
+#         - name: mysql-persistent-storage
+#           mountPath: /var/lib/mysql # Verzeichnis im Container, wo MySQL seine Daten speichert
+
+#       volumes:                    # Definition der Volumes, die dem Pod bereitgestellt werden
+#       - name: mysql-persistent-storage
+#         emptyDir: {}             # Temporärer Speicher (wird gelöscht, wenn Pod weg ist)
+#                                  # Für dauerhaftes Speichern besser PersistentVolumeClaim benutzen
