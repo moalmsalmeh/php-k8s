@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: php-app                # Name des Containers
-        image: mein-php-app:latest  # Container-Image, das gestartet wird (lokal gebaut)
+        image: moalmsalmeh/mein-php-app:latest  # Container-Image, das gestartet wird (lokal gebaut)
         ports:
         - containerPort: 80         # Der Port im Container, der offen ist (z.B. Apache/Nginx)

@@ -1,0 +1,13 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: user-test-job
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: php-test
+        image: moalmsalmeh/mein-php-app:latest
+        imagePullPolicy: Never  # <- Hier rein, nicht unter spec!
+        command: ["phpunit", "tests/UserTest.php"]
